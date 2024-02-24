@@ -12,16 +12,13 @@ def get_x_x_range(ydim):
     """
     return (7 - ydim) * 2 + ydim // 3
 
-def gen_xrow(xpattern):
-    """
-    Generate a row where the X pentomino is present
-    """
-    return ['-'] * xpattern[0] + ['X'] * xpattern[1] + ['-'] * xpattern[2]
-
 def mk_board(board_info):
     """
     Make a board (with x coordinate set)
     """
+    def gen_xrow(xpattern):
+        return ['-'] * xpattern[0] + ['X'] * xpattern[1] + \
+                    ['-'] * xpattern[2]
     def mk_indiv_sz(board):
         def mk_b_rows(row_num):
             def gen_board(col_info):
@@ -41,24 +38,20 @@ def mk_board(board_info):
                     range(0, len(board['xinfo'])))))]
     return dict(list(map(mk_indiv_sz, board_info)))
 
-def get_box_parms(ydim):
-    """
-    Given a height of a board, return all dimensions and possible X pentomino
-    locations
-    """
-    def gbp__x(xdim):
-        def gbp__rcnt(row_cnt):
-            def gbp_rows(xstart):
-                return {'ydim': ydim, 'xdim': xdim, 'xinfo': xstart,
-                        'xmax': get_x_x_range(ydim)}
-            return gbp_rows(range(1, 1 - row_cnt, -1))
-        return gbp__rcnt((ydim - 1) // 2)
-    return gbp__x(60 // ydim)
-
 def get_boards():
     """
     Get boards -- Each different dimension of board is indexed in a dict.
     """
+    def get_box_parms(ydim):
+        def gbp_x(xdim):
+            def gbp_rcnt(row_cnt):
+                def gbp_rows(xstart):
+                    return {'ydim': ydim, 'xdim': xdim,
+                            'xinfo': xstart,
+                            'xmax': get_x_x_range(ydim)}
+                return gbp_rows(range(1, 1 - row_cnt, -1))
+            return gbp_rcnt((ydim - 1) // 2)
+        return gbp_x(60 // ydim)
     return mk_board(list(map(get_box_parms, range(3, 7))))
 
 def find_origin(board):
