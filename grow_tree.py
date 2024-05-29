@@ -32,7 +32,6 @@ Leaf nodes (level 5) will also have the following field:
     figure -- a character value representing the pentomino formed by
               this node and all its predecessors.
 """
-from copy import deepcopy
 from itertools import chain
 
 def grow_tree():
@@ -40,9 +39,9 @@ def grow_tree():
     Tree generation entry point
 
     The main tree generation is performed by gen_tree() which generates a
-    tree with nodes having coord, lineage, and pindx values.  Olinks() adds
-    the offspring values to the nodes, and add_pent_numbs adds the figure
-    values to each node.
+    tree with nodes having coord, lineage, and pindx values.  Add_olinks()
+    adds the offspring values to the nodes, and add_pent_numbs adds the
+    figure values to each node.
     """
     def grow_raw_tree():
         return gen_tree([[{'coord': [0, 0], 'lineage': [], 'pindx':-1}]])
@@ -63,7 +62,7 @@ def grow_tree():
             return list(map(add_link(olinks_set()), enumerate(rtree[row_num])))
         return list(map(ol_inn, range(0, 4))) + [rtree[-1][:]]
     def add_pent_numbs(tree):
-        return deepcopy(tree[0:4]) + [get_fnumbs(tree[4])]
+        return tree[0:4] + [get_fnumbs(tree[4])]
     def get_fnumbs(figures):
         def gf_inner(figure):
             return {'coord': figure['coord'],
@@ -132,7 +131,7 @@ def gen_tree(prev_nodes):
     """
     if len(prev_nodes) >= 5:
         return prev_nodes
-    return gen_tree(deepcopy(prev_nodes) + [rm_dups(next_level(prev_nodes))])
+    return gen_tree(prev_nodes + [rm_dups(next_level(prev_nodes))])
 
 def next_level(prev_nodes):
     """
