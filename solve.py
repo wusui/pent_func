@@ -37,9 +37,7 @@ def solve():
                 def nsi_last_comp(ynumbs):
                     def ycount(ycnt):
                         return list(chain.from_iterable(ycnt)).count('Y')
-                    if ycount(ynumbs['top']) > ycount(ynumbs['bot']):
-                        return False
-                    return True
+                    return ycount(ynumbs['top']) <= ycount(ynumbs['bot'])
                 if nboard[mid_point].count('X') != 3:
                     return True
                 return nsi_last_comp({'top': nboard[0:mid_point],
@@ -62,9 +60,7 @@ def solve():
                         return True
                     if f_node[1] < 0:
                         return True
-                    if pstate['board'][f_node[0]][f_node[1]] != '-':
-                        return True
-                    return False
+                    return pstate['board'][f_node[0]][f_node[1]] != '-'
                 return is_bad_inner([pstate['origin'][0] +
                                          pstate['coord'][0],
                                          pstate['origin'][1] +
@@ -91,10 +87,8 @@ def solve():
                 return ft_inner(f_gnodes())
             def chk_ps(sboard):
                 def dup_pc(pnumb):
-                    if tree[4][pnumb]['figure'] in list(
-                                    chain.from_iterable(sboard)):
-                        return False
-                    return True
+                    return tree[4][pnumb]['figure'] not in list(
+                                    chain.from_iterable(sboard))
                 def do_recurs(fnumb):
                     def w_newboard(newboard):
                         if list(chain.from_iterable(newboard)).count('-') == 0:
