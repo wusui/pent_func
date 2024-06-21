@@ -12,4 +12,4 @@ Solves all rectangular tilings using the data from grow_tree.py.  Returns a dict
 
 ### tester.py
 
-Calls solve.py and compares solutions against data scraped from the Internet to insure that all possible solutions have been found.  Thanks to Stephen Chapman at Isomer Design for providing this information  (https://isomerdesign.com/Pentomino/)
+Calls solve.py and compares solutions against data scraped from the Internet to ensure that all possible solutions have been found.  Thanks to Stephen Chapman at Isomer Design for providing this information  (https://isomerdesign.com/Pentomino/)
